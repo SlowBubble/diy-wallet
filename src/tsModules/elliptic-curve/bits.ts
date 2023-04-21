@@ -76,4 +76,3 @@ export function uint8arrayToBits(array: Uint8Array): Bit[] {
 }
 
 
-

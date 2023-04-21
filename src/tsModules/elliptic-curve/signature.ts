@@ -1,5 +1,6 @@
+import { Bytes, BytesObj, makeByte, makeBytes } from "./ooBytes";
+
 export function parseHexStringInDerToSignature(hexString: string) {
-  console.log(hexString);
   const firstByte = hexString.slice(0, 2);
   if (firstByte !== '30') {
     throw new Error('Invalid DER signature');
@@ -23,12 +24,11 @@ export function parseHexStringInDerToSignature(hexString: string) {
   return new Signature(r, s);
 }
 
-type Bytes = number[];
 
 export class Signature {
   constructor(public r: bigint, public s: bigint) {
   }
-  getDerHexString() {
+  getDerBytes(): Bytes {
     const metadata: Bytes = [];
     // 1. Start with the 0x30 byte.
     metadata.push(0x30);
@@ -38,10 +38,13 @@ export class Signature {
     const data = rData.concat(sData);
 
     // 2. Encode the length of the rest of the signature (usually 0x44 or 0x45) and append.
-    metadata.push(data.length);
+    metadata.push(makeByte(data.length));
 
-    return bytesToHexString(metadata.concat(data));
+    return metadata.concat(data);
   }
+  getDerHexString() {
+    return bytesToHexString(this.getDerBytes());
+  }  
 }
 
 function bytesToHexString(bytes: Bytes) {
@@ -55,28 +58,13 @@ function encodeSigComponent(bigInt: bigint): Bytes {
   data.push(0x02);
 
   // 4. Encode r as a big-endian integer, removing all null bytes at the beginning.
-  let bigIntInBytes = bigIntToBigEndianBytes(bigInt);
+  let bigIntInBytes = BytesObj.fromBigEndianNum(bigInt).toBytes();
   // if bigInt has a high bit, add a \x00
   if (bigIntInBytes[0] >= 0x80) {
-    bigIntInBytes = [0x00].concat(bigIntInBytes);
+    bigIntInBytes = makeBytes([0x00].concat(bigIntInBytes));
   }
 
-  data.push(bigIntInBytes.length);
+  data.push(makeByte(bigIntInBytes.length));
   data.push(...bigIntInBytes);
-  console.log(data);
-  console.log(bigIntInBytes.length);
   return data;
-}
-
-function bigIntToBigEndianBytes(input: bigint): Bytes {
-  let hexString = input.toString(16);
-  if (hexString.length % 2 !== 0) {
-    hexString = '0' + hexString;
-  }
-
-  const result = [];
-  for (let i = 0; i < hexString.length; i += 2) {
-    result.push(parseInt(hexString.slice(i, i + 2), 16));
-  }
-  return result;
 }

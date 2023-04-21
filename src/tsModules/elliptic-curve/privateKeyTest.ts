@@ -1,3 +1,4 @@
+// @ts-ignore
 import { runTest } from '../../../node_modules/@clubfest/table-test/index.js';
 import { bigIntToHexString, utf8StringToBigInt } from './bits';
 import { FieldElement } from './finiteField';

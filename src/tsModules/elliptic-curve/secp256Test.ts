@@ -1,3 +1,4 @@
+// @ts-ignore
 import { runTest } from '../../../node_modules/@clubfest/table-test/index.js';
 import { NonzeroPoint } from './point';
 import { generatorOrder, generator, serializeInCompressedSecFormat, serializeInUncompressedSecFormat, deserializeFromSecFormat } from './secp256';

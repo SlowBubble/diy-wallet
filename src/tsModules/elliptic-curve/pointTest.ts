@@ -1,5 +1,6 @@
 // Import point.ts and test plus() and equals() methods
 import { NonzeroPoint, ZeroPoint } from './point';
+// @ts-ignore
 import { runTest } from '../../../node_modules/@clubfest/table-test/index.js';
 import { FieldElement } from './finiteField';
 

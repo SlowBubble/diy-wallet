@@ -1,4 +1,12 @@
 import typescript from '@rollup/plugin-typescript';
+import { nodeResolve } from '@rollup/plugin-node-resolve';
+import commonjs from '@rollup/plugin-commonjs';
+
+const plugins = [
+	nodeResolve(),
+	// commonjs(),
+	typescript(),
+];
 
 export default [
 	{
@@ -8,7 +16,7 @@ export default [
 			format: 'iife',
 			sourcemap: true,
 		},
-		plugins: [typescript()],
+		plugins: plugins,
 	},
 	{
 		input: 'src/testMain.ts',
@@ -17,6 +25,6 @@ export default [
 			format: 'iife',
 			sourcemap: true,
 		},
-		plugins: [typescript()],
+		plugins: plugins,
 	},
 ];

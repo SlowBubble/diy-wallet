@@ -63,7 +63,7 @@ export async function deterministicK(z: bigint, secret: bigint): Promise<bigint>
 // Convert a hex string to a byte array
 function hexToUint8Array(hex: string): Uint8Array {
   if (hex.length % 2 !== 0) {
-    throw new Error(`Hex string must have even length: ${hex}`);
+    throw new Error(`Hex string must have even length: ${hex.length}`);
   }
   const result = new Uint8Array(hex.length / 2);
   for (let i = 0; i < hex.length; i += 2) {

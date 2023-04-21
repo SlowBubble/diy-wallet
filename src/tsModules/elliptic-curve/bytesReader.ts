@@ -1,4 +1,4 @@
-import { Bytes } from "./bytes";
+import { Bytes } from "./ooBytes";
 
 export class BytesReader {
   constructor(public bytes: Bytes, public offset: number = 0) {

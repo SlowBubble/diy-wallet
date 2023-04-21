@@ -41,7 +41,7 @@ export function deserializeFromSecFormat(hex: string): NonzeroPoint {
     return makeSecp256PointFromHex(hex.slice(2, 66), hex.slice(66, 130));
   }
   if (marker !== "02" && marker !== "03") {
-    throw new Error("Invalid marker");
+    throw new Error(`Invalid marker: ${marker}; hex: ${hex}`);
   }
   const isEven = marker === "02";
   const x = new FieldElement(BigInt("0x" + hex.slice(2, 66)), prime);
